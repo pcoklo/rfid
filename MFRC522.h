@@ -385,6 +385,8 @@ public:
 	//const char *PICC_GetTypeName(byte type);
 	const __FlashStringHelper *PICC_GetTypeName(byte type);
 	void PICC_DumpToSerial(Uid *uid);
+	void PICC_DumpUidToSerial(Uid *uid);
+	void PICC_DumpDataToSerial(Uid *uid);
 	void PICC_DumpMifareClassicToSerial(Uid *uid, byte piccType, MIFARE_Key *key);
 	void PICC_DumpMifareClassicSectorToSerial(Uid *uid, MIFARE_Key *key, byte sector);
 	void PICC_DumpMifareUltralightToSerial();

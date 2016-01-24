@@ -66,8 +66,9 @@ void loop() {
 		return;
 	}
 
-	// Dump debug info about the card; PICC_HaltA() is automatically called
-	mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
+	mfrc522.PICC_DumpUidToSerial(&(mfrc522.uid));	//no HaltA in this function
+	mfrc522.PICC_DumpDataToSerial(&(mfrc522.uid));	//no HaltA in this function
+	mfrc522.PICC_HaltA();
 }
 
 void ShowReaderDetails() {

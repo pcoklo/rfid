@@ -66,6 +66,8 @@ GetStatusCodeName	KEYWORD2
 PICC_GetType	KEYWORD2
 PICC_GetTypeName	KEYWORD2
 PICC_DumpToSerial	KEYWORD2
+PICC_DumpUidToSerial	KEYWORD2
+PICC_DumpDataToSerial	KEYWORD2
 PICC_DumpMifareClassicToSerial	KEYWORD2
 PICC_DumpMifareClassicSectorToSerial	KEYWORD2
 PICC_DumpMifareUltralightToSerial	KEYWORD2

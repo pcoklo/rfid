@@ -1231,6 +1231,58 @@ const __FlashStringHelper *MFRC522::PICC_GetTypeName(byte piccType	///< One of t
 	}
 } // End PICC_GetTypeName()
 
+void MFRC522::PICC_DumpUidToSerial(Uid *uid){
+	// UID
+	Serial.print(F("Card UID:"));
+	for (byte i = 0; i < uid->size; i++) {
+		if(uid->uidByte[i] < 0x10)
+			Serial.print(F(" 0"));
+		else
+			Serial.print(F(" "));
+		Serial.print(uid->uidByte[i], HEX);
+	} 
+	Serial.println();
+}
+
+void MFRC522::PICC_DumpDataToSerial(Uid *uid){
+	MIFARE_Key key;
+
+	byte piccType = PICC_GetType(uid->sak);
+	Serial.print(F("PICC type: "));
+	Serial.println(PICC_GetTypeName(piccType));
+	
+	// Dump contents
+	switch (piccType) {
+		case PICC_TYPE_MIFARE_MINI:
+		case PICC_TYPE_MIFARE_1K:
+		case PICC_TYPE_MIFARE_4K:
+			// All keys are set to FFFFFFFFFFFFh at chip delivery from the factory.
+			for (byte i = 0; i < 6; i++) {
+				key.keyByte[i] = 0xFF;
+			}
+			PICC_DumpMifareClassicToSerial(uid, piccType, &key);
+			break;
+			
+		case PICC_TYPE_MIFARE_UL:
+			PICC_DumpMifareUltralightToSerial();
+			break;
+			
+		case PICC_TYPE_ISO_14443_4:
+		case PICC_TYPE_ISO_18092:
+		case PICC_TYPE_MIFARE_PLUS:
+		case PICC_TYPE_TNP3XXX:
+			Serial.println(F("Dumping memory contents not implemented for that PICC type."));
+			break;
+			
+		case PICC_TYPE_UNKNOWN:
+		case PICC_TYPE_NOT_COMPLETE:
+		default:
+			break; // No memory dump here
+	}
+	
+	Serial.println();
+}
+
 /**
  * Dumps debug info about the selected PICC to Serial.
  * On success the PICC is halted after dumping the data.
